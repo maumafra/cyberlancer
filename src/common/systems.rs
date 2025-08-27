@@ -16,49 +16,49 @@ pub fn handle_input(context: &mut Context) {
         context.world.get_resource::<Input>().unwrap().clone()
     };
 
-    if input.is_key_released(PhysicalKey::Code(KeyCode::Enter))
-    || input.is_key_released(PhysicalKey::Code(KeyCode::Space)) {
+    if input.is_key_released(KeyCode::Enter)
+    || input.is_key_released(KeyCode::Space) {
         start_game(context);
         enter_pause_option(context);
         enter_game_over_option(context);
     }
 
-    if input.is_key_released(PhysicalKey::Code(KeyCode::Escape)) {
+    if input.is_key_released(KeyCode::Escape) {
         toggle_pause(context);
     }
 
-    if input.is_key_pressed(PhysicalKey::Code(KeyCode::KeyA)) {
+    if input.is_key_pressed(KeyCode::KeyA) {
         move_player(context, -1.0);
     }
-    if input.is_key_pressed(PhysicalKey::Code(KeyCode::KeyD)) {
+    if input.is_key_pressed(KeyCode::KeyD) {
         move_player(context, 1.0);
     }
-    if input.is_key_released(PhysicalKey::Code(KeyCode::KeyA))
-    || input.is_key_released(PhysicalKey::Code(KeyCode::KeyD))
-    || (input.is_key_pressed(PhysicalKey::Code(KeyCode::KeyA))
-    && input.is_key_pressed(PhysicalKey::Code(KeyCode::KeyD))) {
+    if input.is_key_released(KeyCode::KeyA)
+    || input.is_key_released(KeyCode::KeyD)
+    || (input.is_key_pressed(KeyCode::KeyA)
+    && input.is_key_pressed(KeyCode::KeyD)) {
         move_player(context, 0.0);
     }
 
-    if input.is_key_released(PhysicalKey::Code(KeyCode::KeyW)) {
+    if input.is_key_released(KeyCode::KeyW) {
         move_pause_selection(context, -1);
         move_game_over_selection(context, -1);
     }
-    if input.is_key_released(PhysicalKey::Code(KeyCode::KeyS)) {
+    if input.is_key_released(KeyCode::KeyS) {
         move_pause_selection(context, 1);
         move_game_over_selection(context, 1);
     }
 
-    if input.is_key_released(PhysicalKey::Code(KeyCode::KeyX)) {
+    if input.is_key_released(KeyCode::KeyX) {
         horn(context)
     }
 
-    if input.is_key_released(PhysicalKey::Code(KeyCode::Semicolon)) {
+    if input.is_key_released(KeyCode::Semicolon) {
         toggle_debug_visibility(context);
     }
 
     if input.is_mouse_button_released(MouseButton::Left) {
-        handle_mouse_click(context, input.mouse_position.0, input.mouse_position.1);
+        handle_mouse_click(context, input.mouse_position.x, input.mouse_position.y);
         //eprintln!("mouse pos: x={:?}, y={:?}", input.mouse_position.0, input.mouse_position.1);
     }
 }

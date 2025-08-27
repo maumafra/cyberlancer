@@ -20,7 +20,6 @@ use player::systems::*;
 use score::resources::*;
 use score::systems::*;
 
-
 your_game!(
     WindowConfiguration {
         icon_path: "sprites/48x48/cars/white-lancer.png".to_string(),
@@ -35,7 +34,8 @@ your_game!(
         decorations: true,
         transparent: false,
         active: true,
-        enabled_buttons: WindowButtons::CLOSE | WindowButtons::MINIMIZE
+        enabled_buttons: WindowButtons::CLOSE | WindowButtons::MINIMIZE,
+        ..Default::default()
     },
     setup,
     update
