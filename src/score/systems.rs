@@ -5,29 +5,32 @@ use crate::common::resources::MARU_MONICA_FONT_PATH;
 use crate::score::components::*;
 use crate::score::resources::*;
 
-
 const TEXT_DRAW_ORDER: u32 = 5;
 
 pub fn spawn_score_screen(context: &mut Context) {
     let score_text: Text = Text::new(
+        &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(67.2, 42.0), Strategy::Pixelated),
         Color::WHITE,
         "score".to_string()
     );
     let score_time: Text = Text::new(
+        &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(50.88, 84.00), Strategy::Pixelated),
         Color::WHITE,
         "00:00:000".to_string()
     );
     let highscore_text: Text = Text::new(
+        &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(15.36, 168.00), Strategy::Pixelated),
         Color::ORANGE,
         "> highscore <".to_string()
     );
     let highscore_time: Text = Text::new(
+        &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(50.88, 210.00), Strategy::Pixelated),
         Color::ORANGE,
@@ -87,11 +90,8 @@ pub fn update_score_time(context: &mut Context) {
     let seconds: u32 = ((current_time.as_millis()/1000)%60) as u32;
     let minutes: u32 = (current_time.as_millis()/60000) as u32;
 
-    context.world.text_renderers.get_mut(&time_entity.0).unwrap().update_content(
-        (format!("{:02}:{:02}:{:03}", minutes, seconds, millis)).to_string(),
-        context.render_state.queue.clone(),
-        context.render_state.physical_size
-    );
+    let text: ComponentRef<'_, Text> = context.world.get_entity_component::<Text>(&time_entity).unwrap();
+    text.content(&context.world, time_entity, (format!("{:02}:{:02}:{:03}", minutes, seconds, millis)).to_string());
 }
 
 pub fn save_highscore_time(context: &mut Context) {
@@ -115,11 +115,8 @@ pub fn save_highscore_time(context: &mut Context) {
         let seconds: u32 = ((finished_score.as_millis()/1000)%60) as u32;
         let minutes: u32 = (finished_score.as_millis()/60000) as u32;
 
-        context.world.text_renderers.get_mut(&highscore_entity.0).unwrap().update_content(
-            (format!("{:02}:{:02}:{:03}", minutes, seconds, millis)).to_string(),
-            context.render_state.queue.clone(),
-            context.render_state.physical_size
-        );
+        let text: ComponentRef<'_, Text> = context.world.get_entity_component::<Text>(&highscore_entity).unwrap();
+        text.content(&context.world, highscore_entity, (format!("{:02}:{:02}:{:03}", minutes, seconds, millis)).to_string());
     }   
 }
 

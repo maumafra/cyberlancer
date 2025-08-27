@@ -109,7 +109,7 @@ fn check_player_border_collision(context: &mut Context, player_entity: Entity) -
     for border in &borders_entities {
         let border_collision: ComponentRef<'_, Collision> = context.world.get_entity_component::<Collision>(border).unwrap();
         if Collision::check(CollisionAlgorithm::Aabb, &player_collision, &border_collision) {
-            eprintln!("crash on border!");
+            //eprintln!("crash on border!");
             collides = true;
             break;
         }
@@ -128,7 +128,7 @@ fn check_player_opponent_collision(context: &Context, player_entity: Entity) -> 
         let opponent_collision: ComponentRef<'_, Collision> = context.world.get_entity_component::<Collision>(opponent).unwrap();
 
         if Collision::check(CollisionAlgorithm::Aabb, &player_collision, &opponent_collision) {
-            eprintln!("crash on car!");
+            //eprintln!("crash on car!");
             collides = true;
             break;
         }

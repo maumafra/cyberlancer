@@ -10,6 +10,15 @@ pub struct Pause();
 pub struct PauseSelection(pub u32);
 
 #[derive(Component)]
+pub struct Retry();
+
+#[derive(Component)]
+pub struct QuitToMenu();
+
+#[derive(Component)]
+pub struct QuitGame();
+
+#[derive(Component)]
 pub struct GameOver();
 
 #[derive(Component)]
