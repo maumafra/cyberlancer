@@ -24,7 +24,7 @@ your_game!(
     WindowConfiguration {
         icon_path: "sprites/48x48/cars/white-lancer.png".to_string(),
         title: "cyberlancer: neon rush".to_string(),
-        background_color: Some(Color::BLACK),
+        background_color: Some(Color::by_option(ColorOption::Black)),
         background_image_path: None,
         width: WIDTH as f64,
         height: HEIGHT as f64,

@@ -12,54 +12,60 @@ use crate::score::systems::resume_score;
 use crate::score::systems::start_score;
 
 pub fn handle_input(context: &mut Context) {
-    let input: Input = {
-        context.world.get_resource::<Input>().unwrap().clone()
-    };
+    let keyboard_input: KeyboardInput = context.world.get_resource_cloned::<KeyboardInput>().unwrap();
+    let mouse_input: MouseInput = context.world.get_resource_cloned::<MouseInput>().unwrap();
 
-    if input.is_key_released(KeyCode::Enter)
-    || input.is_key_released(KeyCode::Space) {
+    if
+        keyboard_input.is_key_released(KeyCode::Enter) ||
+        keyboard_input.is_key_released(KeyCode::Space)
+    {
         start_game(context);
         enter_pause_option(context);
         enter_game_over_option(context);
     }
 
-    if input.is_key_released(KeyCode::Escape) {
+    if keyboard_input.is_key_released(KeyCode::Escape) {
         toggle_pause(context);
     }
 
-    if input.is_key_pressed(KeyCode::KeyA) {
+    if keyboard_input.is_key_pressed(KeyCode::KeyA) {
         move_player(context, -1.0);
     }
-    if input.is_key_pressed(KeyCode::KeyD) {
+
+    if keyboard_input.is_key_pressed(KeyCode::KeyD) {
         move_player(context, 1.0);
     }
-    if input.is_key_released(KeyCode::KeyA)
-    || input.is_key_released(KeyCode::KeyD)
-    || (input.is_key_pressed(KeyCode::KeyA)
-    && input.is_key_pressed(KeyCode::KeyD)) {
+
+    if
+        keyboard_input.is_key_released(KeyCode::KeyA) ||
+        keyboard_input.is_key_released(KeyCode::KeyD) ||
+        (keyboard_input.is_key_pressed(KeyCode::KeyA) &&
+        keyboard_input.is_key_pressed(KeyCode::KeyD)
+    ) {
         move_player(context, 0.0);
     }
 
-    if input.is_key_released(KeyCode::KeyW) {
+    if keyboard_input.is_key_released(KeyCode::KeyW) {
         move_pause_selection(context, -1);
         move_game_over_selection(context, -1);
     }
-    if input.is_key_released(KeyCode::KeyS) {
+
+    if keyboard_input.is_key_released(KeyCode::KeyS) {
         move_pause_selection(context, 1);
         move_game_over_selection(context, 1);
     }
 
-    if input.is_key_released(KeyCode::KeyX) {
+    if keyboard_input.is_key_released(KeyCode::KeyX) {
         horn(context)
     }
 
-    if input.is_key_released(KeyCode::Semicolon) {
+    if keyboard_input.is_key_released(KeyCode::Semicolon) {
         toggle_debug_visibility(context);
     }
 
-    if input.is_mouse_button_released(MouseButton::Left) {
-        handle_mouse_click(context, input.mouse_position.x, input.mouse_position.y);
-        //eprintln!("mouse pos: x={:?}, y={:?}", input.mouse_position.0, input.mouse_position.1);
+    if mouse_input.is_mouse_button_released(MouseButton::Left) {
+        handle_mouse_click(context, mouse_input.mouse_position.x, mouse_input.mouse_position.y);
+        //eprintln!("mouse pos: x={:?}, y={:?}", mouse_input.mouse_position.0, mouse_input.mouse_position.1);
     }
 }
 
@@ -110,7 +116,6 @@ fn start_game(context: &Context) {
     }
 }
 
-// TODO Needs refactoring ASAP
 fn handle_mouse_click(context: &mut Context, mouse_x: f32, mouse_y: f32) {
     let game_state: GameStateEnum = context.world.get_resource::<GameState>().unwrap().0.clone();
 
@@ -158,7 +163,12 @@ fn toggle_debug_visibility(context: &mut Context) {
     for debug_entity in &debug_entities {
         change_visibilty(context, debug_entity);
     }
-    context.commands.show_fps(context.game_loop_listener.current_fps, Color::GREEN);
+
+    if let Some(_) = Query::new(&context.world).with::<Fps>().entities_with_components().unwrap().first() {
+        context.commands.hide_fps();
+    } else {
+        context.commands.show_fps(context.game_loop_listener.current_fps, Color::by_option(ColorOption::Green));
+    }
 }
 
 pub fn change_visibilty(context: &Context, entity: &Entity) {
@@ -170,11 +180,12 @@ pub fn spawn_borders(context: &mut Context) {
     let spawn_y: f32 = (context.window_configuration.height * (3.0/4.0)) as f32;
     context.commands.spawn(
         vec![
-            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Square, Color::RED)),
+            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Square, Color::by_option(ColorOption::Red))),
             Box::new(Transform::new(
                 Position::new(Vector2::new(330.0, spawn_y), Strategy::Pixelated),
                 0.0,
-                Vector2::new(0.005, 1.0))),
+                Vector2::new(0.005, 1.0)
+            )),
             Box::new(Border()),
             Box::new(DebugComponent()),
             Box::new(Visibility(false)),
@@ -184,7 +195,7 @@ pub fn spawn_borders(context: &mut Context) {
     );
     context.commands.spawn(
         vec![
-            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Square, Color::RED)),
+            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Square, Color::by_option(ColorOption::Red))),
             Box::new(Transform::new(
                 Position::new(Vector2::new(635.0, spawn_y), Strategy::Pixelated),
                 0.0,

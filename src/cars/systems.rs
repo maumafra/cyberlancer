@@ -1,5 +1,5 @@
 use lotus_engine::*;
-use rand::{rngs::ThreadRng, seq::IndexedRandom, Rng};
+use rand::{rngs::ThreadRng, RngExt, seq::IndexedRandom};
 
 use crate::cars::components::*;
 use crate::cars::resources::*;
@@ -80,7 +80,7 @@ pub fn spawn_cars(context: &mut Context) {
         };
 
         //eprintln!("number of opponents to spawn: {:?}", number_of_opponents_to_spawn);
-        
+
         let mut lane_numbers: Vec<i32> = vec![1, 2, 3, 4, 5, 6];
         for _ in 1..=number_of_opponents_to_spawn {
             let lane_index: usize = thread_rng.random_range(0..lane_numbers.len()) as usize;
@@ -122,10 +122,10 @@ fn calculate_car_spawn_position(lane_number: i32, car_offset: f32) -> Vector2<f3
     // with 'n' as lane number (which varies from 1..6)
     // so in the first lane (n=1), the car would be spawned on the left border (negative part on x axis), having:
     // 1*a + b = (-1.0)*(spawn_range/2.0)
-    // 
+    //
     // and in the last lane (n=6), the car would be spawned on the right border (positive part on x axis), having:
     // 6*a + b = (spawn_range/2.0)
-    // 
+    //
     // so we get:
     // | a + b = -spawn_range/2.0
     // | 6a + b = spawn_range/2.0

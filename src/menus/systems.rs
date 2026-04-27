@@ -105,17 +105,17 @@ pub fn move_game_over_selection(context: &mut Context, direction: i32) {
     let quit_game_text: ComponentRef<'_, Text> = context.world.get_entity_component::<Text>(&quit_game_entity).unwrap();
 
     if selection == 0 {
-        retry_text.color(&context.world, retry_entity, Color::YELLOW);
-        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::WHITE);
-        quit_game_text.color(&context.world, quit_game_entity, Color::WHITE);
+        retry_text.color(&context.world, retry_entity, Color::by_option(ColorOption::Yellow));
+        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::by_option(ColorOption::White));
+        quit_game_text.color(&context.world, quit_game_entity, Color::by_option(ColorOption::White));
     } else if selection == 1 {
-        retry_text.color(&context.world, retry_entity, Color::WHITE);
-        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::YELLOW);
-        quit_game_text.color(&context.world, quit_game_entity, Color::WHITE);
+        retry_text.color(&context.world, retry_entity, Color::by_option(ColorOption::White));
+        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::by_option(ColorOption::Yellow));
+        quit_game_text.color(&context.world, quit_game_entity, Color::by_option(ColorOption::White));
     } else if selection == 2 {
-        retry_text.color(&context.world, retry_entity, Color::WHITE);
-        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::WHITE);
-        quit_game_text.color(&context.world, quit_game_entity, Color::YELLOW);
+        retry_text.color(&context.world, retry_entity, Color::by_option(ColorOption::White));
+        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::by_option(ColorOption::White));
+        quit_game_text.color(&context.world, quit_game_entity, Color::by_option(ColorOption::Yellow));
     }
 }
 
@@ -151,11 +151,11 @@ pub fn move_pause_selection(context: &mut Context, direction: i32) {
     let quit_game_text: ComponentRef<'_, Text> = context.world.get_entity_component::<Text>(&quit_game_entity).unwrap();
 
     if selection == 0 {
-        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::YELLOW);
-        quit_game_text.color(&context.world, quit_game_entity, Color::WHITE);
+        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::by_option(ColorOption::Yellow));
+        quit_game_text.color(&context.world, quit_game_entity, Color::by_option(ColorOption::White));
     } else if selection == 1 {
-        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::WHITE);
-        quit_game_text.color(&context.world, quit_game_entity, Color::YELLOW);
+        quit_to_menu_text.color(&context.world, quit_to_menu_entity, Color::by_option(ColorOption::White));
+        quit_game_text.color(&context.world, quit_game_entity, Color::by_option(ColorOption::Yellow));
     }
 }
 
@@ -164,14 +164,14 @@ pub fn spawn_main_menu(context: &mut Context) {
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), MENU_FONT_SIZE),
         Position::new(Vector2::new(LEFT_MENU_TEXT_X, LEFT_MENU_TEXT_Y), Strategy::Pixelated),
-        Color::YELLOW,
+        Color::by_option(ColorOption::Yellow),
         "> enter <".to_string()
     );
     let start_text_shadow: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), MENU_FONT_SIZE),
         Position::new(Vector2::new(LEFT_MENU_TEXT_X+2.0, LEFT_MENU_TEXT_Y+1.0), Strategy::Pixelated),
-        Color::BLACK,
+        Color::by_option(ColorOption::Black),
         "> enter <".to_string()
     );
     context.commands.spawn(
@@ -207,14 +207,14 @@ pub fn spawn_pause_menu(context: &mut Context) {
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(RIGHT_MENU_TEXT_X, 42.0), Strategy::Pixelated),
-        Color::WHITE,
+        Color::by_option(ColorOption::White),
         "pause".to_string()
     );
     let selection: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 30.0),
         Position::new(Vector2::new(RIGHT_MENU_TEXT_X-19.0, RIGHT_MENU_TEXT_Y+42.0), Strategy::Pixelated),
-        Color::YELLOW,
+        Color::by_option(ColorOption::Yellow),
         ">".to_string()
     );
     context.commands.spawn(
@@ -242,21 +242,21 @@ pub fn spawn_game_over_menu(context: &mut Context) {
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(RIGHT_MENU_TEXT_X, 42.0), Strategy::Pixelated),
-        Color::WHITE,
+        Color::by_option(ColorOption::White),
         "game over :(".to_string()
     );
     let retry: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 30.0),
         Position::new(Vector2::new(RIGHT_MENU_TEXT_X, RIGHT_MENU_TEXT_Y), Strategy::Pixelated),
-        Color::YELLOW,
+        Color::by_option(ColorOption::Yellow),
         "retry :)".to_string()
     );
     let selection: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 30.0),
         Position::new(Vector2::new(RIGHT_MENU_TEXT_X-19.0, RIGHT_MENU_TEXT_Y), Strategy::Pixelated),
-        Color::YELLOW,
+        Color::by_option(ColorOption::Yellow),
         ">".to_string()
     );
     context.commands.spawn(
@@ -293,19 +293,19 @@ fn spawn_right_menu(context: &mut Context) {
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 30.0),
         Position::new(Vector2::new(RIGHT_MENU_TEXT_X, RIGHT_MENU_TEXT_Y + 42.0), Strategy::Pixelated),
-        Color::WHITE,
+        Color::by_option(ColorOption::White),
         "quit to menu".to_string()
     );
     let quit: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 30.0),
         Position::new(Vector2::new(RIGHT_MENU_TEXT_X, RIGHT_MENU_TEXT_Y + 84.0), Strategy::Pixelated),
-        Color::WHITE,
+        Color::by_option(ColorOption::White),
         "quit game".to_string()
     );
     context.commands.spawn(
         vec![
-            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Rectangle, Color::BLACK)),
+            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Rectangle, Color::by_option(ColorOption::Black))),
             Box::new(Transform::new(
                 Position::new(Vector2::new(1.3, 0.0), Strategy::Normalized),
                 0.0,
