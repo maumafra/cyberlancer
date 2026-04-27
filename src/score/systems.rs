@@ -12,33 +12,33 @@ pub fn spawn_score_screen(context: &mut Context) {
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(67.2, 42.0), Strategy::Pixelated),
-        Color::WHITE,
+        Color::by_option(ColorOption::White),
         "score".to_string()
     );
     let score_time: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(50.88, 84.00), Strategy::Pixelated),
-        Color::WHITE,
+        Color::by_option(ColorOption::White),
         "00:00:000".to_string()
     );
     let highscore_text: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(15.36, 168.00), Strategy::Pixelated),
-        Color::ORANGE,
+        Color::by_option(ColorOption::Orange),
         "> highscore <".to_string()
     );
     let highscore_time: Text = Text::new(
         &mut context.render_state,
         Font::new(MARU_MONICA_FONT_PATH.to_string(), 40.0),
         Position::new(Vector2::new(50.88, 210.00), Strategy::Pixelated),
-        Color::ORANGE,
+        Color::by_option(ColorOption::Orange),
         "00:00:000".to_string()
     );
     context.commands.spawn(
         vec![
-            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Rectangle, Color::BLACK)),
+            Box::new(Shape::new(Orientation::Horizontal, GeometryType::Rectangle, Color::by_option(ColorOption::Black))),
             Box::new(Transform::new(
                 Position::new(Vector2::new(-1.3, 0.0), Strategy::Normalized),
                 0.0,
@@ -117,7 +117,7 @@ pub fn save_highscore_time(context: &mut Context) {
 
         let text: ComponentRef<'_, Text> = context.world.get_entity_component::<Text>(&highscore_entity).unwrap();
         text.content(&context.world, highscore_entity, (format!("{:02}:{:02}:{:03}", minutes, seconds, millis)).to_string());
-    }   
+    }
 }
 
 pub fn reset_score(context: &Context) {
